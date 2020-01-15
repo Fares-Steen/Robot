@@ -38,7 +38,7 @@ namespace RobotVS
     }
        public void StartSonic(){
        Console.WriteLine("Start Sonic");
-        for (int x=0; x<100;x++){
+        for (int x=0; x<1000;x++){
             
                  gpio.OpenPin(TRIG, PinMode.Output);
                     gpio.Write(TRIG,0);
@@ -99,12 +99,12 @@ namespace RobotVS
             Console.WriteLine("Move Motor");
             while (notStop)
                 {
-                    if(distance>20){
+                    if(distance>10&&distance<100){
                      for (int halfstep = 0; halfstep < 8; halfstep++)
                     {
                         for (int pin = 0; pin < 4; pin++)
                         {
-
+                            if(notStop)
                             gpio.Write(ControlPin[pin], seg[halfstep, pin]);
                             Thread.Sleep(TimeSpan.FromSeconds(0.0011));
                         }

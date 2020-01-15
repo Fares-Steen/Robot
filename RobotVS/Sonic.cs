@@ -47,12 +47,12 @@ public void Start(){
 
                     }
                      var stop = DateTime.Now;
-                    //Console.WriteLine(stop.Ticks);
+                            //Console.WriteLine(stop.Ticks);
 
-                   distance=((stop- start).Milliseconds *17)/10000;
-                   Console.WriteLine(distance);
+                            distance = ((stop.Ticks - start.Ticks) * 17) / 10000;
+                            Console.WriteLine(distance);
 
-                   gpio.ClosePin(ECHO);
+                            gpio.ClosePin(ECHO);
                    gpio.ClosePin(TRIG);
                     }
             }}

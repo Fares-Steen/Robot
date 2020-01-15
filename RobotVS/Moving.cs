@@ -13,6 +13,9 @@ namespace RobotVS
          public bool canMove =false;
 
         public bool notStop = true;
+        public bool goingBack = false;
+        public DateTime goingBackTime = DateTime.Now;
+
 
         private int[] ControlPin = new int[] { 6, 13, 19, 26 };
         int[,] seg = new int[,] {
@@ -89,6 +92,8 @@ namespace RobotVS
 
         public void InitMotor(){
             Console.WriteLine("Init Motor");
+            EndAll();
+            notStop = true;
                  for (int pin = 0; pin < 4; pin++)
                 {
                     gpio.OpenPin(ControlPin[pin], PinMode.Output);
@@ -99,22 +104,44 @@ namespace RobotVS
             Console.WriteLine("Move Motor");
             while (notStop)
                 {
-                    if(distance>10&&distance<100){
-                     for (int halfstep = 0; halfstep < 8; halfstep++)
+                if (distance > 10&&!goingBack)
+                {
+                    for (int halfstep = 7; halfstep > 0; halfstep--)
                     {
                         for (int pin = 0; pin < 4; pin++)
                         {
-                            if(notStop)
-                            gpio.Write(ControlPin[pin], seg[halfstep, pin]);
+                            if (notStop)
+                                gpio.Write(ControlPin[pin], seg[halfstep, pin]);
                             Thread.Sleep(TimeSpan.FromSeconds(0.0011));
                         }
 
                     }
+                }
+                else {
+                    goingBack = true;
+                    if (distance < 20)
+                    {
+                        for (int halfstep = 0; halfstep < 8; halfstep++)
+                        {
+                            for (int pin = 0; pin < 4; pin++)
+                            {
+                                if (notStop)
+                                    gpio.Write(ControlPin[pin], seg[halfstep, pin]);
+                                Thread.Sleep(TimeSpan.FromSeconds(0.0011));
+                            }
+
+                        }
                     }
+                    else {
+                        goingBack = false;
+                    }
+                }
                    
 
                 }
        }
+
+     
 
    
 

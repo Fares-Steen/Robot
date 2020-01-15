@@ -4,4 +4,5 @@ pscp -pw farissy -v -r .\* pi@192.168.0.99:/home/pi/Desktop/rpitest
 popd
 
 chmod 777 /home/pi/Desktop/rpitest
+cd /home/pi/Desktop/rpitest
 ./RobotVS

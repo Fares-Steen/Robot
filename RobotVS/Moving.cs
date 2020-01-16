@@ -19,6 +19,7 @@ namespace RobotVS
 
 
         private int[] ControlPin = new int[] { 6, 13, 19, 26 };
+        private int[] ControlPin2 = new int[] { 12, 16, 20, 21 };
         int[,] seg = new int[,] {
                           {1, 0, 0, 0 },
                           {1, 1, 0, 0},
@@ -104,8 +105,11 @@ namespace RobotVS
             for (int pin = 0; pin < 4; pin++)
             {
                 gpio.OpenPin(ControlPin[pin], PinMode.Output);
+                gpio.OpenPin(ControlPin2[pin], PinMode.Output);
 
             }
+            
+        
         }
         public void MoveMotor()
         {
@@ -123,6 +127,8 @@ namespace RobotVS
                         {
                             if (notStop)
                                 gpio.Write(ControlPin[pin], seg[halfstep, pin]);
+                                gpio.Write(ControlPin2[pin], seg[(halfstep-7)*-1, pin]);
+
                             Thread.Sleep(TimeSpan.FromSeconds(0.0011));
                         }
 
@@ -141,6 +147,7 @@ namespace RobotVS
                             {
                                 if (notStop)
                                     gpio.Write(ControlPin[pin], seg[halfstep, pin]);
+                                    //gpio.Write(ControlPin2[pin], seg[(halfstep), pin]);
                                 Thread.Sleep(TimeSpan.FromSeconds(0.0011));
                             }
 
@@ -178,6 +185,7 @@ namespace RobotVS
                 try
                 {
                     gpio.ClosePin(ControlPin[pin]);
+                    gpio.ClosePin(ControlPin2[pin]);
 
                 }
                 catch (Exception e)
